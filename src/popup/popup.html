@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Template Matcher</title>
+    <link rel="stylesheet" href="./css/popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><img src="./images/icon.png" alt="Icon" /> Template Matcher</h1>
+      </header>
+
+      <main>
+        <div class="control-group">
+          <label class="switch">
+            <input type="checkbox" id="toggle" />
+            <span class="slider"></span>
+          </label>
+          <span id="status" class="status-badge inactive">OFFaa</span>
+        </div>
+
+        <div class="template-section">
+          <input type="file" id="template-upload" accept="image/*" />
+          <label for="template-upload" class="upload-btn"> Select Template Image </label>
+          <div id="template-preview"></div>
+        </div>
+
+        <div class="threshold-section">
+          <label>Detection Threshold: <span id="threshold-value">0.8</span></label>
+          <input type="range" id="threshold-slider" min="0.5" max="1" step="0.05" value="0.8" />
+        </div>
+      </main>
+
+      <footer>
+        <button id="settings-btn" title="Settings">settings</button>
+      </footer>
+    </div>
+    <script src="./js/popup.bundle.js"></script>
+  </body>
+</html>

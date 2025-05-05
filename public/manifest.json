@@ -1,0 +1,35 @@
+{
+  "manifest_version": 2,
+  "name": "OpenCV Template Matcher",
+  "version": "1.0.0",
+  "description": "Real-time visual pattern detection",
+  "permissions": ["notifications", "activeTab", "tabs", "storage", "<all_urls>"],
+  "background": {
+    "scripts": ["js/background.bundle.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "images/icon.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://totalbattle.com/*"],
+      "js": ["js/content.bundle.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": ["lib/opencv.js", "images/*.png"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "your-extension@domain.com",
+      "strict_min_version": "57.0"
+    }
+  }
+}
