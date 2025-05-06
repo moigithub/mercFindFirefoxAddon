@@ -43,7 +43,7 @@ module.exports = {
     ]
   },
   plugins: [
-    // new CleanWebpackPlugin(),
+    new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         { from: 'public', to: '' },

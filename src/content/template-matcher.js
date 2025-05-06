@@ -60,7 +60,6 @@ export class TemplateMatcher {
     return new Promise(async (resolve, reject) => {
       const response = await browser.runtime.sendMessage({ type: 'CAPTURE_TAB' })
 
-      // console.log('captureVisibleTab CAPTURE_TAB', response)
       if (response === true || browser.runtime.lastError) {
         console.error(
           'Error al capturar:',
@@ -68,7 +67,6 @@ export class TemplateMatcher {
         )
         reject(null)
       } else {
-        // console.log('captureVisibleTab resolve image', response)
         const canvas = await processBase64Image(response)
         if (canvas) {
           resolve(canvas)
@@ -82,8 +80,8 @@ export class TemplateMatcher {
   startMatching(interval = 300) {
     this.matchInterval = setInterval(async () => {
       const result = await this.match()
-      document.title = String(result.confidence)
       if (result?.match) {
+        document.title = String(result.confidence)
         // await SoundPlayer.playBeep('confirm')
 
         browser.runtime.sendMessage({

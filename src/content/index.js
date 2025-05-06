@@ -8,8 +8,6 @@ class ContentController {
   }
 
   async init() {
-    // console.log('content init')
-
     await this.matcher.init()
 
     // Establish persistent connection
@@ -47,10 +45,8 @@ class ContentController {
   }
 
   stopMonitoring() {
-    // console.log('stopMonitoring')
     this.matcher.stopMatching()
   }
 }
 
-// console.log('content loaded')
 new ContentController()

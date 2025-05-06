@@ -1,4 +1,5 @@
 import { SoundPlayer } from '../lib/sound'
+import { loadImage, loadStaticTemplate, processBase64Image } from '../utils'
 
 browser.windows.create({
   url: browser.runtime.getURL('popup.html'),
@@ -6,15 +7,19 @@ browser.windows.create({
   width: 400,
   height: 600
 })
-// console.log('Extension ID:', browser.runtime.id)
-// console.log('Popup URL:', browser.runtime.getURL('popup.html'))
 
 const state = {
   active: false,
-  threshold: 0.8,
+  threshold: 0.6,
   template: null,
   listeners: new Set()
 }
+
+const STATIC_TEMPLATE_URL = browser.runtime.getURL('images/template.png')
+
+const template = await loadStaticTemplate(STATIC_TEMPLATE_URL)
+
+state.template = template
 
 // Persistent connection handler
 browser.runtime.onConnect.addListener(port => {
@@ -67,21 +72,6 @@ browser.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       })
       break
 
-    case 'UPDATE_TEMPLATE':
-      state.template = request.imageUrl
-      await browser.storage.sync.set({ template: state.template })
-      notifyAll()
-      sendResponse({ success: true })
-      break
-
-    // case 'UPDATE_THRESHOLD':
-    //   // console.log('bg: UPDATE_THRESHOLD')
-    //   state.threshold = request.threshold
-    //   await browser.storage.sync.set({ threshold: state.threshold })
-    //   notifyAll()
-    //   sendResponse({ success: true })
-    //   break
-
     case 'MATCH_FOUND':
       await SoundPlayer.playBeep('alert')
 
@@ -127,7 +117,5 @@ function notifyAll() {
 // Persistent storage
 browser.storage.sync.get(['active', 'threshold', 'template'], data => {
   if (data.active !== undefined) state.active = data.active
-  if (data.threshold !== undefined) state.threshold = data.threshold
-  if (data.template !== undefined) state.template = data.template
   notifyAll()
 })
